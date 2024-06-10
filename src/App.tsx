@@ -42,6 +42,23 @@ function App() {
       document.removeEventListener("keypress", handler)
     }
   }, [guessedLetters])
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      const key = e.key
+      if (key !== "Enter") return
+
+      e.preventDefault()
+      setGuessedLetters([])
+      setWordToGuess(getWord())
+    }
+
+    document.addEventListener("keypress", handler)
+
+    return () => {
+      document.removeEventListener("keypress", handler)
+    }
+  }, [])
   
 
   return (
@@ -57,8 +74,8 @@ function App() {
       }}>
 
         <div style={{fontSize: "2rem", textAlign:"center"}}>
-          {isWinner && "You Won!! Please refresh the page to play again"}
-          {isLoser && "You Lost!! Please refresh the page to play again"}
+          {isWinner && "You Won!! Please refresh the page or Press 'Enter' to play again"}
+          {isLoser && "You Lost!! Please refresh the page or Press 'Enter' to play again"}
         </div>
 
         <HangmanDrawing numberofGuesses={incorrectLetters.length}/>
